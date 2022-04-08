@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { URL_API } from "../../utils/constants";
-//import { Link } from "react-router-dom";
 import axios from "axios";
 
 import Box from "@mui/material/Box";
@@ -10,21 +10,31 @@ import Loading from "./../Loading/Loading";
 
 import "./Leagues.scss";
 
-export default function Leagues(props) {
-  
+export default function Leagues() {
+  const navigate = useNavigate();
+
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios({
-      method: "GET",
-      url: `${URL_API}/leagues`,
-    })
-      .then((res) => {
-        // console.log(res.data.data);
-        setData(res.data.data);
-      })
-      .catch((e) => console.log(e));
+    getData();
   }, []);
+
+  const getData = async () => {
+    try {
+      const response = await axios.get(`${URL_API}/leagues`);
+      setData(response.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleClick = (id) => {
+    navigate(`/live/${id}`);
+  }
+
+  if(!data.length) {
+    return <Loading />
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -34,7 +44,7 @@ export default function Leagues(props) {
             <img
               src={data.logos.light}
               alt="#"
-              onClick={() => console.log(data.id)}
+              onClick={() => handleClick(data.id)}
             />
             <h2>{data.name}</h2>
           </Grid>

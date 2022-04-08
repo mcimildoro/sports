@@ -6,7 +6,7 @@ import "./Loading.scss";
 export default function Loading() {
   return (
     <div className="loading">
-      <Spin size="large"></Spin>
+      <Spin tip="Loading..." />
     </div>
   );
 }

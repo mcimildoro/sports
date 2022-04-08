@@ -12,7 +12,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Leagues />} />
-          <Route path="/live" element={<Live />} />
+          <Route path="/live/:id" element={<Live />} />
         </Routes>
       </div>
     </Router>
