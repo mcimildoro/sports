@@ -26,14 +26,14 @@ export default function Leagues() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const handleClick = (id) => {
     navigate(`/live/${id}`);
-  }
+  };
 
-  if(!data.length) {
-    return <Loading />
+  if (!data.length) {
+    return <Loading />;
   }
 
   return (
