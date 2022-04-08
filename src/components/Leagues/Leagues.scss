@@ -1,0 +1,18 @@
+.container {
+    margin-top: 60px!important;
+    align-items: center;
+    display: flex!important;
+    flex-direction: row!important;
+    flex-wrap: wrap!important;
+    justify-content: space-between;
+    flex-grow: 4;
+    
+    img {
+        width: 100px;
+    }
+  
+    img:hover{
+        transform: scale(1.1);
+    }
+}
+
