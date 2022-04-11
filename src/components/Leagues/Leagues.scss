@@ -1,12 +1,11 @@
 .container {
-    margin-top: 60px!important;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
-    display: flex!important;
-    flex-direction: row!important;
-    flex-wrap: wrap!important;
-    justify-content: space-between;
-    flex-grow: 4;
-    
+    gap: 10px 20px; /* row-gap column gap */
+    padding: 99px;
     img {
         width: 100px;
     }

@@ -3,17 +3,27 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { URL_API } from "../../utils/constants";
 import "./Live.scss";
+import Error from "../Error/Error";
+
 import Loading from "./../Loading/Loading";
-
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-
-import Stack from "@mui/material/Stack";
+import {
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+} from "@mui/material";
 import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import { textTransform } from "@mui/system";
 
-export default function Live() {
+const Live = () => {
   const { id } = useParams();
   const [live, setLive] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const { name, seasonDisplay, standings } = live;
 
   useEffect(() => {
@@ -21,6 +31,12 @@ export default function Live() {
       getLive(id);
     }
   }, [id]);
+
+  useEffect(() => {
+    if (live.standings) {
+      setLoading(false);
+    }
+  }, [live]);
 
   const getLive = async (id) => {
     try {
@@ -30,47 +46,78 @@ export default function Live() {
       setLive(response.data.data);
     } catch (error) {
       console.log(error);
+      setError(true);
     }
   };
 
-  console.log(live);
-  //console.log(standings);
   return (
     <>
-      <h1>{name}</h1>
-      <span>{seasonDisplay}</span>
+      <h1 className="table-title">
+        {name} - {seasonDisplay}
+      </h1>
       <Divider orientation="horizontal" flexItem />
-      <Box sx={{ flexGrow: 2, width: "100%" }}>
-        <Grid columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-          {standings &&
-            standings.map((standings) => (
-              <Grid key={standings.team.id} item xs={12} sm={6} md={4}>
-                <div className="table_box" key={standings.team.id}>
-                  <h3>{standings.team.name}</h3>
-                  {standings.notes &&
-                    standings.notes.map(() => {
-                      //console.log(standings);
-                      return (
-                        <div className="table_box__stats">
-                          <span>{standings.notes.name}</span>
-                        </div>
-                      );
-                    })}
-                  {standings.stats &&
-                    standings.stats.map((stat) => {
-                      //console.log(stat);
-                      return (
-                        <div className="table_box__stats">
-                          <span>{stat.name}</span>
-                          <span>{stat.displayValue}</span>
-                        </div>
-                      );
-                    })}
-                </div>
-              </Grid>
-            ))}
-        </Grid>
-      </Box>
+      <TableContainer className="table_box">
+        {loading ? (
+          <Loading />
+        ) : error ? (
+          <Error />
+        ) : (
+          standings && (
+            <Table>
+              <TableHead className="thead">
+                <TableRow className="__title">
+                  <TableCell>Teams</TableCell>
+                  {standings[0].stats.map((header) => {
+                    return (
+                      <TableCell key={header.description + header.abbreviation}>
+                        {header.displayName}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              </TableHead>
+              <TableBody className="tbody">
+                {standings.map((standings) => (
+                  <TableRow key={standings.team.id}>
+                    {standings.team.logos ? (
+                      <TableCell className="team-image">
+                        <td>
+                          <img
+                            src={standings.team.logos[0].href}
+                            alt={standings.team.name}
+                          />
+                        </td>
+                      </TableCell>
+                    ) : (
+                      <TableCell>{standings.team.name}</TableCell>
+                    )}
+
+                    {standings.stats &&
+                      standings.stats.map((stat) => {
+                        return (
+                          <TableCell key={stat.description + stat.abbreviation}>
+                            {stat.displayValue}
+                          </TableCell>
+                        );
+                      })}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )
+        )}
+      </TableContainer>
+      <Stack className="button-back-home" spacing={2} direction="row">
+        <Button
+          sx={{ backgroundColor: "#4682B4", textTransform: "none" }}
+          variant="contained"
+          href="/"
+        >
+          Home
+        </Button>
+      </Stack>
     </>
   );
-}
+};
+
+export default Live;

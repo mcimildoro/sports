@@ -1,12 +1,13 @@
 import React from "react";
-import { Spin } from "antd";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 import "./Loading.scss";
 
 export default function Loading() {
   return (
-    <div className="loading">
-      <Spin tip="Loading..." />
-    </div>
+    <Box className="loading" sx={{ display: 'flex' }}>
+      <CircularProgress />
+    </Box>
   );
 }

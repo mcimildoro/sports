@@ -1,16 +1,18 @@
 import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import imagen from "../../assets/img/football.png";
+import footballImage from "../../assets/img/football.png";
 import "./Header.scss";
 
-export default function Header() {
+const Header = () => {
   return (
-    <AppBar className="header">
+    <AppBar sx={{ bgcolor: "#2F4F4F" }} position="relative" className="header">
       <Toolbar className="container-fluid">
-        <img src={imagen} alt="Football"></img>
+        <img src={footballImage} alt="Football"></img>
         <h3>Sports App</h3>
       </Toolbar>
     </AppBar>
   );
-}
+};
+
+export default Header;
