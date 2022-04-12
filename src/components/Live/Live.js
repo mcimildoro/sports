@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { URL_API } from "../../utils/constants";
 import "./Live.scss";
-import Error from "../Error/Error";
+
 
 import Loading from "./../Loading/Loading";
 import {
@@ -17,13 +17,13 @@ import {
 import Divider from "@mui/material/Divider";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
-import { textTransform } from "@mui/system";
+import Typography from '@mui/material/Typography';
 
 const Live = () => {
   const { id } = useParams();
   const [live, setLive] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+
   const { name, seasonDisplay, standings } = live;
 
   useEffect(() => {
@@ -46,21 +46,18 @@ const Live = () => {
       setLive(response.data.data);
     } catch (error) {
       console.log(error);
-      setError(true);
     }
   };
 
   return (
     <>
-      <h1 className="table-title">
-        {name} - {seasonDisplay}
-      </h1>
+      <Typography variant="h3" className="table-title">
+        {name}{" "}{seasonDisplay}
+      </Typography>
       <Divider orientation="horizontal" flexItem />
       <TableContainer className="table_box">
         {loading ? (
           <Loading />
-        ) : error ? (
-          <Error />
         ) : (
           standings && (
             <Table>

@@ -8,8 +8,13 @@
 }
 
 body{
+  background: linear-gradient(rgba(94, 107, 103, 0.993), rgba(90, 72, 72, 0.7)), url("./assets/img/soccer.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
   background-color:#F0FFF0 ;
   margin: 0;
   padding: 0;
-  height: 100%;
+  
 }

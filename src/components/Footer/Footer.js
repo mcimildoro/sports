@@ -7,7 +7,7 @@ const Footer = () => {
   const { Footer } = Layout;
   return (
     <Footer className="footer">
-      <p>Miguel Cimildoro</p>
+      <p>Hi im Footer :)</p>
     </Footer>
   );
 };

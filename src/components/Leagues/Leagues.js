@@ -3,22 +3,16 @@ import { useNavigate } from "react-router-dom";
 import { URL_API } from "../../utils/constants";
 import axios from "axios";
 
-import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-//import { getData } from "./../Apis/Services";
-
-import Loading from "../Loading/Loading";
+import TextField from "@mui/material/TextField";
+import Typography from '@mui/material/Typography';
 
 import "./Leagues.scss";
 
 const Leagues = () => {
   const navigate = useNavigate();
-
   const [data, setData] = useState([]);
-
-  useEffect(() => {
-    getData(setData());
-  }, []);
+  const [search, setSearch] = useState("");
 
   const getData = async () => {
     try {
@@ -29,15 +23,43 @@ const Leagues = () => {
     }
   };
 
+  useEffect(() => {
+    getData(setData());
+  }, []);
+
   const handleClick = (id) => {
     navigate(`/live/${id}`);
   };
 
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    handleInput(e);
+  };
+
+  const handleInput = (e) => {
+    if (e.target.value === null || e.target.value === "") {
+      getData(setData());
+    } else {
+      const filteredData = data.filter((item) => {
+        return item.name.toLowerCase().includes(e.target.value.toLowerCase());
+      });
+      setData(filteredData);
+    }
+  };
+
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <div>
-        <h1 className="table-title">Leagues</h1>
+    <>
+      <div className="search-box">
+        <Typography variant="h3" className="table-title">Competition Standings</Typography>
+        <TextField
+          value={search}
+          id="outlined-basic"
+          variant="outlined"
+          onChange={(e) => handleSearch(e)}
+          label="Find your league"
+        />
       </div>
+
       <div className="container">
         {data &&
           data.map((data) => (
@@ -51,7 +73,7 @@ const Leagues = () => {
             </Grid>
           ))}
       </div>
-    </Box>
+    </>
   );
 };
 
