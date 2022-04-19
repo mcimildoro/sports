@@ -64,7 +64,9 @@ const Live = () => {
               <TableHead className="thead">
                 <TableRow className="__title">
                   <TableCell>Teams</TableCell>
-                  {standings[0].stats.map((header) => {
+                  
+                  {
+                  standings[0].stats.slice(0, 7).map((header) => {
                     return (
                       <TableCell key={header.description + header.abbreviation}>
                         {header.displayName}
@@ -89,8 +91,7 @@ const Live = () => {
                       <TableCell>{standings.team.name}</TableCell>
                     )}
 
-                    {standings.stats &&
-                      standings.stats.map((stat) => {
+                    {standings.stats.slice(0, 7).map((stat) => {
                         return (
                           <TableCell key={stat.description + stat.abbreviation}>
                             {stat.displayValue}
